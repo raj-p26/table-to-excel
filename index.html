@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table To Excel</title>
+  </head>
+  <body>
+    <table id="my-table">
+      <thead>
+        <tr>
+          <th>Field 1</th>
+          <th>Field 2</th>
+          <th>Field 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+    <button onclick="onClick()">Download</button>
+  </body>
+  <script>
+    function onClick() {
+      /** @type {HTMLTableElement | null} */
+      const myTable = document.getElementById("my-table");
+      const rows = myTable.querySelectorAll("tr");
+      let lines = "";
+      const dataType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+      // "text/csv";
+
+      rows.forEach((row) => {
+        const columns = row.querySelectorAll("th, td");
+        let line = "";
+
+        columns.forEach((column) => {
+          line += column.textContent + ",";
+        });
+        line = line.substring(0, line.length - 1);
+
+        lines += line + "\r\n";
+      });
+
+      console.log(lines);
+      let blob = new Blob([lines], {
+        type: dataType,
+      });
+
+      const a = document.createElement("a");
+
+      a.href = URL.createObjectURL(blob);
+
+      a.download = "file2.xlsx";
+
+      //   a.href = "data:" + dataType + ", " + blob;
+
+      //   a.download = "myFile.csv";
+
+      a.click();
+    }
+  </script>
+</html>
