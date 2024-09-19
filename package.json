@@ -1,0 +1,9 @@
+{
+  "name": "table-to-excel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Raj Peshavariya",
+  "license": "MIT",
+  "description": "Convert HTML Tables to CSV file."
+}
