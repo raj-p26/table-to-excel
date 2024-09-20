@@ -10,6 +10,9 @@ function convertToCSV(
     separator: ",",
   }
 ) {
+  if (!(table instanceof HTMLTableElement))
+    throw new Error(`table ain't Table. How the turn-tables.`);
+
   const rows = table.querySelectorAll("tr");
   let content = "";
 
@@ -17,7 +20,8 @@ function convertToCSV(
     const columns = row.querySelectorAll("th, td");
 
     columns.forEach((column) => {
-      content += column.textContent + opts.separator;
+      const text = column.textContent.replace(",", "");
+      content += text + opts.separator;
     });
     content += "\r\n";
   });
