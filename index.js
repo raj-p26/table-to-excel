@@ -6,9 +6,7 @@
  */
 function convertToCSV(
   table,
-  opts = {
-    separator: ",",
-  }
+  maxCols = -1
 ) {
   if (!(table instanceof HTMLTableElement))
     throw new Error(`table ain't Table. How the turn-tables.`);
@@ -19,14 +17,20 @@ function convertToCSV(
   rows.forEach((row) => {
     const columns = row.querySelectorAll("th, td");
 
-    columns.forEach((column) => {
-      const text = column.textContent.replace(",", "");
-      content += text + opts.separator;
+    columns.forEach((column, idx) => {
+      if (maxCols !== -1 && (idx + 1) > maxCols) return;
+      
+      const text = column
+        .textContent
+        .trimStart()
+        .trimEnd()
+        .replace(",", "");
+      content += text + ",";
     });
     content += "\r\n";
   });
 
-  // I did not say blob, I said bub.
+  // I did't call him "blob", I said bub.
   const bub = new Blob([content], {
     type: "text/csv",
   });
